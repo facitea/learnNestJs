@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Board, BoardStatus } from './boards.model';
 import { v1 as uuid } from 'uuid';
+import { CreateBoardDto } from './DTO/create-board.dto';
 
 @Injectable()
 export class BoardsService {
@@ -11,7 +12,9 @@ export class BoardsService {
   }
   //이 함수를 호출하면 boards 배열을 가져올 수 있음.
 
-  createBoard(title: string, description: string) {
+  createBoard(createBoardDto: CreateBoardDto) {
+    const { title, description } = createBoardDto;
+
     const board: Board = {
       id: uuid(),
       title: title,
@@ -24,6 +27,20 @@ export class BoardsService {
     return board;
 
     //이 함수는 제목과, 내용을 받아서 맨위의 boards함수에 넣어주는 역할.
+  }
+
+  getBoardById(id: string): Board {
+    return this.boards.find((board) => board.id === id);
+  }
+
+  deleteBoard(id: string): void {
+    this.boards = this.boards.filter((board) => board.id! !== id);
+  }
+
+  updateBoardStatus(id: string, status: BoardStatus): Board {
+    const board = this.getBoardById(id); //board를 id값으로 가져옴
+    board.status = status;
+    return board;
   }
 }
 

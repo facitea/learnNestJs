@@ -3,8 +3,8 @@ import { BoardsController } from './boards.controller';
 import { BoardsService } from './boards.service';
 
 @Module({
-  controllers: [BoardsController],
-  providers: [BoardsService]
+  controllers: [BoardsController],//사용할 컨트롤러를 넣는다.
+  providers: [BoardsService]//사용할 서비스를 넣는다.
 })
 export class BoardsModule {}
 

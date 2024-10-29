@@ -3,7 +3,7 @@ import { BoardsModule } from './boards/boards.module';
 
 
 @Module({
-  imports: [BoardsModule],
+  imports: [BoardsModule],//최상위 모듈에서는 타 모듈은 import해서 쓴다.
 })
 export class AppModule {}
 

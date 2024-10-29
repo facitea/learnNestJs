@@ -19,7 +19,7 @@ export class BoardsController {
 
   @Post()
   createBoard(
-    @Body() createBoardDto: CreateBoardDto
+    @Body() createBoardDto: CreateBoardDto //DTO는 데이터를 전송할 때에 쓰인다!!!!
     // @Body('title') title: string,
     // @Body('description') description: string
   ): Board { //@Body('title') title 하면 title을 가져오게 됨, 전체를 가져오려면 @Body() body 하면 됨

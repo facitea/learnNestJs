@@ -1,6 +1,6 @@
 import { BoardsService } from './boards.service';
 import { Board, BoardStatus } from './boards.model';
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateBoardDto } from './DTO/create-board.dto';
 
 //컨트롤러는 들어오는 요청을 처리하고 클라이언트에 응답을 반환한다
@@ -18,8 +18,9 @@ export class BoardsController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)//handler 레벨의 파이프 사용
   createBoard(
-    @Body() createBoardDto: CreateBoardDto //DTO는 데이터를 전송할 때에 쓰인다!!!!
+    @Body() createBoardDto: CreateBoardDto //DTO는 데이터를 전송할 때에 쓰인다
     // @Body('title') title: string,
     // @Body('description') description: string
   ): Board { //@Body('title') title 하면 title을 가져오게 됨, 전체를 가져오려면 @Body() body 하면 됨

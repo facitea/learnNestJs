@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Board, BoardStatus } from './boards.model';
 import { v1 as uuid } from 'uuid';
 import { CreateBoardDto } from './DTO/create-board.dto';
@@ -30,11 +30,26 @@ export class BoardsService {
   }
 
   getBoardById(id: string): Board {
-    return this.boards.find((board) => board.id === id);
-  }
+    const found = this.boards.find(board => board.id === id);
+
+    if (!found) {
+      throw new NotFoundException('안보여줄거야!');
+    }
+
+    return found;
+  }/*코드를 이렇게 짜면 http://localhost:3000/boards/asdasd
+  위처럼 주소창을 입력했을 때에, {
+    "message": "안보여줄거야!",
+    "error": "Not Found",
+    "statusCode": 404
+} 이렇게 뜬다*/
 
   deleteBoard(id: string): void {
-    this.boards = this.boards.filter((board) => board.id! !== id);
+    const found = this.getBoardById(id);
+
+    this.boards = this.boards.filter((board) => board.id! !== found.id);
+
+    //삭제한 경우에는 리턴할 필요 없음.
   }
 
   updateBoardStatus(id: string, status: BoardStatus): Board {

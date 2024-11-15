@@ -2,6 +2,7 @@ import { BoardsService } from './boards.service';
 import { Board, BoardStatus } from './boards.model';
 import { Controller, Get, Post, Body, Param, Delete, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateBoardDto } from './DTO/create-board.dto';
+import { BoardStatusValidaionPipe } from './pipes/board-status-validation.pipe';
 
 //컨트롤러는 들어오는 요청을 처리하고 클라이언트에 응답을 반환한다
 //핸들러란. @Get, @Post, @Delete, @Patch 등의 데코레이터이며, ()괄호 안에는 "/"등의 엔드포인트가 들어간다.
@@ -43,7 +44,8 @@ export class BoardsController {
   @Patch('/:id/status')
   updateBoardStatus(
     @Param('id') id: string, //주소 끝의 파라미터 값을 추출
-    @Body('status') status: BoardStatus //body내의 값을 추출
+    // @Body('status') status: BoardStatus //body내의 값을 추출
+    @Body('status', BoardStatusValidaionPipe) status: BoardStatus
   ) {
     return this.boardsService.updateBoardStatus(id, status);
   }
